@@ -28,11 +28,11 @@ userRouter.post('/signup', async (c) => {
   
     const result = await prisma.user.findUnique({
       where: {
-        email: body.email,
+        username: body.username,
       },
     })
   
-    if(result?.email){
+    if(result?.username){
       c.status(411)
       return c.json({
         msg: "Email already registered"
@@ -41,8 +41,9 @@ userRouter.post('/signup', async (c) => {
   
     const user = await prisma.user.create({
       data : {
-        email: body.email,
-        password: body.password
+        username: body.username,
+        password: body.password,
+        name: body.name
       }
     })
   
@@ -72,7 +73,7 @@ userRouter.post('/signin', async (c) => {
 
     const user = await prisma.user.findUnique({
         where: {
-        email: body.email,
+        username: body.username,
         password: body.password
         }
     })
